@@ -7,3 +7,5 @@ It is expected that this repository *must* contain the testing
 infrastructure for you to pass the project requirements.  If you do
 not merge from this repository, then it is impossible to tell if your
 code is working properly.
+
+This is the local copy of Andrew Ketchum
