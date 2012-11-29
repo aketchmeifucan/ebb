@@ -1,0 +1,10 @@
+<% provide(:title) %>
+
+<div class="row">
+	<div class="span6 offset3">
+		<%= form_for(@board) do |f| %>
+			<%= render 'fields', f: f %>
+			<%= f.submit "Create my board", class: "btn btn-large btn-primary" %>
+		<% end %>
+	</div>
+</div>

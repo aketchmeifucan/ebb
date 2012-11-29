@@ -1,0 +1,15 @@
+<% provide(:title, @user.name) %>
+<div class="row">
+	<aside class="span4">
+	<section>
+	<h1>
+		<%= @user.name %>
+	</h1>
+	</section>
+	</aside>
+	<div class="span6 offset3">
+		<%= form_for(@user) do |f| %>
+			<%= f.submit "Create board", class: "btn btn-large btn-primary" %>
+		<% end %>
+	</div>
+</div>
