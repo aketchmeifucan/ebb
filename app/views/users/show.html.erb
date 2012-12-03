@@ -3,12 +3,15 @@
 	<aside class="span4">
 	<section>
 	<h1>
+		<%= gravatar_for @user %>
 		<%= @user.name %>
+		<%= @user.email %>
 	</h1>
 	</section>
 	</aside>
 	<div class="span6 offset3">
 		<%= form_for(@user) do |f| %>
+			<%= render 'fields', f: f %>
 			<%= f.submit "Create board", class: "btn btn-large btn-primary" %>
 		<% end %>
 	</div>

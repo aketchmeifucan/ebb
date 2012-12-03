@@ -1,0 +1,14 @@
+<% provide(:title) %>
+
+<div class="row">
+	<div class="span6 offset3">
+		<%= @advertisement.width %>
+		<%= @advertisement.height %>
+		<%= @advertisement.x_location %>
+		<%= @advertisement.y_location %>
+		<%= form_for([@board, @advertisement]) do |f| %>
+			<%= render 'fields', f: f %>
+			<%= f.submit "Create advertisement", class: "btn btn-large btn-primary" %>
+		<% end %>
+	</div>
+</div>

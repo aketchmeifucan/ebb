@@ -3,8 +3,19 @@
 	<aside class="span4">
 	<section>
 	<h1>
-		<%= @board %>
+		<%= @board.name %>
+		<%= @board.timezone %>
+		<%= "Width: #{pluralize(@board.width, 'tile')}" %>
+	    <%= "Height: #{pluralize(@board.height, 'tile')}" %>
+		<%= "Created by: #{@board.user.name}" %>
 	</h1>
 	</section>
 	</aside>
+	<div class="span6 offset3">
+		<%= form_for(@board) do |f| %>
+			<%= render 'fields', f: f %>
+			<%= f.submit "Create advertisement", class: "btn btn-large btn-primary" %>
+			<!-- f.submit "Create board", class: "btn btn-large btn-primary" -->
+		<% end %>
+	</div>
 </div>

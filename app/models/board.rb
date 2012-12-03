@@ -13,4 +13,8 @@ class Board < ActiveRecord::Base
 	validates_numericality_of :height, :greater_than => 0
 	validates :timezone, presence: true
 	validates_inclusion_of :timezone, :in => ActiveSupport::TimeZone.zones_map
+
+	def age
+		#fill in logic code
+	end
 end

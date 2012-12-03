@@ -3,13 +3,17 @@ ElectronicBulletinBoard::Application.routes.draw do
 
 	resources :users
 	resources :sessions, only: [:new, :create, :destroy]
-	resources :boards
+	resources :boards do
+		resources :advertisements
+	end
 	root to: 'static_pages#home'
 
 	match '/signup', to: 'users#new'
 	match '/signin', to: 'sessions#new'
 	match '/signout', to: 'sessions#destroy', via: :delete
 	match '/', to: 'static_pages#home'
+	match '/new_board', to: 'boards#new'
+	#do I need new_board like this or does resources take care of it?? 
 
 
 
