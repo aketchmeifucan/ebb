@@ -6,16 +6,37 @@
 		<%= @board.name %>
 		<%= @board.timezone %>
 		<%= "Width: #{pluralize(@board.width, 'tile')}" %>
-	    <%= "Height: #{pluralize(@board.height, 'tile')}" %>
+		<%= "Height: #{pluralize(@board.height, 'tile')}" %>
 		<%= "Created by: #{@board.user.name}" %>
 	</h1>
+
 	</section>
 	</aside>
-	<div class="span6 offset3">
-		<%= form_for(@board) do |f| %>
-			<%= render 'fields', f: f %>
-			<%= f.submit "Create advertisement", class: "btn btn-large btn-primary" %>
-			<!-- f.submit "Create board", class: "btn btn-large btn-primary" -->
-		<% end %>
+	<div class= "span6 offset3">
+		<div class= "new ad button">
+			<%= button_to "Create advertisement", new_board_advertisement_path(@board), query: @board.id, class: "btn btn-large btn-primary", method: "get" %>
+		</div>
+		<ul class="advertisements">
+			<% @advertisements.each do |advert| %>
+				<li>
+				<%= "Username: #{advert.user.name}" %>
+				<%= "Width: #{advert.width}" %>
+				<!--pluralize??!!-->
+				<%= "Height: #{advert.height}" %> 
+				<%= "X Location: #{advert.x_location}" %>
+				<%= "Y Location: #{advert.y_location}" %>
+				</li>
+			<% end %>
+		</ul>
+		<div class="board" style= "border: 5px inset lightblue; position: relative; width: <%= Integer(@board.width) * 64 %>px; height: <%= Integer(@board.height) * 64 %>px;">
+
+			<div class="ad_container" style= "position: relative; margin-left: 0px; width: <%= Integer(@board.width) * 64 %>px; height: <%= Integer(@board.height) * 64 %>px; z-index: 0; display: block;"></div>
+			<% @board.advertisements.each do |advertisement| %>
+
+				<img src="<%= url_for(:controller => "images", :action => "show", :id => advertisement.id)%>" id="<%= "ad_#{advertisement.id}_image" %>" style="position: absolute; left: <%= advertisement.x_location * 64 %>px; top: <%= advertisement.y_location * 64 %>px; width: <%= advertisement.width * 64 %>px; height: <%= advertisement.height * 64 %>px; z-index: <%= advertisement.id %> ; padding: 0px; margin:0px;">
+				<!--< @count = @count + 1 >-->
+			<% end %>
+
+		</div>
 	</div>
 </div>

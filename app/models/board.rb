@@ -15,6 +15,11 @@ class Board < ActiveRecord::Base
 	validates_inclusion_of :timezone, :in => ActiveSupport::TimeZone.zones_map
 
 	def age
-		#fill in logic code
-	end
+		tiles.each do |t|
+			t.age
+		end
+		advertisements.each do |a|
+			a.charge
+		end
+	end 
 end

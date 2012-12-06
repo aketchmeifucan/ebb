@@ -1,5 +1,5 @@
 class Advertisement < ActiveRecord::Base
-	attr_accessible :height, :image, :width, :x_location, :y_location
+	attr_accessible :height, :image, :width, :x_location, :y_location, :image_contents
 
 	has_many :tiles
 	belongs_to :user
@@ -18,6 +18,21 @@ class Advertisement < ActiveRecord::Base
 	validates_numericality_of :height, :greater_than => 0
 	validates_numericality_of :width, :greater_than => 0
 	validates :board, presence: true
+
+	#should image_contents and charge be in model or controller??!!
+	def image_contents=(object)
+		self.image = object.read
+#		do image contents stuff?? like render MIME?? 
+	end
+
+	def charge
+		#do charge stuff
+		@payment_entry = self.payment_details.build()
+		self.tiles.each do |t|
+			@payment_entry.amount += t.cost
+		end
+#		@payment_entry.user = current_user
+	end
 
 	private
 	def check_advertisement_bounds

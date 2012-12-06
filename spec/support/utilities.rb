@@ -46,6 +46,8 @@ def signin(user)
   fill_in 'Email', with: user.email
   fill_in 'Password', with: user.password
   click_button 'Sign in'
+  cookies[:remember_token] = user.remember_token
+  #did I need to do this last cookie line or was it eliminated?? 
 end
 
 def full_title(page_title)

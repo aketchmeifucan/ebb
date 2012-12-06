@@ -12,6 +12,16 @@ class Tile < ActiveRecord::Base
 	validates_numericality_of :y_location, :greater_than => 0
 	validate :check_tile_bounds
 
+	def age
+		#reduce cost down to .01 then free
+		if (cost/2) < 0.01
+			cost = 0
+		else
+			cost = cost / 2
+		end
+		#create entry in payment details do in board call charge
+	end
+
 	private
 	def check_tile_bounds
 		unless x_location.nil? || board.width.nil?
@@ -47,9 +57,5 @@ class Tile < ActiveRecord::Base
 				errors.add(:y_location, 'y_location of tile is less than y_location of advertisement')
 			end
 		end
-	end
-
-	def age
-		#stuff or is this only in ad or board model?? 
 	end
 end

@@ -1,0 +1,13 @@
+<% provide(:title) %>
+
+<div class="row">
+	<div class="span6 offset3">
+		<%= @tile.x_location %>
+		<%= @tile.y_location %>
+		<%= @tile.cost %>
+		<%= form_for([@advertisement, @tile]) do |f| %>
+			<%= render 'fields', f: f %>
+			<%= f.submit "Create tile", class: "btn btn-large btn-primary" %>
+		<% end %>
+	</div>
+</div>

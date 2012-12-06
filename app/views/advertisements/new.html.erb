@@ -6,6 +6,7 @@
 		<%= @advertisement.height %>
 		<%= @advertisement.x_location %>
 		<%= @advertisement.y_location %>
+		<!--do user name and image selector?? -->
 		<%= form_for([@board, @advertisement]) do |f| %>
 			<%= render 'fields', f: f %>
 			<%= f.submit "Create advertisement", class: "btn btn-large btn-primary" %>
