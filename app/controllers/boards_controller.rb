@@ -14,8 +14,8 @@ class BoardsController < ApplicationController
 	def create
 		#create instead of build?? mass assignment user not accessible
 		@board = current_user.boards.build(params[:board])
-		#add default or fake ad...doesn't matter how big...so assets/rails.png??
 		if @board.save
+
 			flash[:success] = "Board created!"
 			redirect_to @board
 			#success msg!
@@ -39,10 +39,10 @@ class BoardsController < ApplicationController
 	def signed_in_user
 		unless signed_in?
 			store_location
-#			redirect_to root_path, notice: "Not signed in."
+			#			redirect_to root_path, notice: "Not signed in."
 			redirect_to(root_path, flash: {error: "Not signed in"})
-#			redirect_to(root_path)
-#			flash[:error] = "Not signed in"
+			#			redirect_to(root_path)
+			#			flash[:error] = "Not signed in"
 		end
 	end
 end

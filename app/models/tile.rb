@@ -14,10 +14,10 @@ class Tile < ActiveRecord::Base
 
 	def age
 		#reduce cost down to .01 then free
-		if (cost/2) < 0.01
-			cost = 0
+		if (self.cost/2) < 0.01
+			self.cost = 0
 		else
-			cost = cost / 2
+			self.cost = self.cost / 2
 		end
 		#create entry in payment details do in board call charge
 	end

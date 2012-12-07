@@ -14,6 +14,8 @@ class Board < ActiveRecord::Base
 	validates :timezone, presence: true
 	validates_inclusion_of :timezone, :in => ActiveSupport::TimeZone.zones_map
 
+	before_create :fakeAd
+
 	def age
 		tiles.each do |t|
 			t.age
@@ -22,4 +24,11 @@ class Board < ActiveRecord::Base
 			a.charge
 		end
 	end 
+
+	private
+	def fakeAd
+			ad = advertisements.build(x_location: 0, y_location: 0, width: self.width, height: self.height)
+			ad.image = "rails.png"
+			ad.user = user
+	end
 end

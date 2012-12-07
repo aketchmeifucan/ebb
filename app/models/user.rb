@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
 	attr_accessible :email, :name, :password, :password_confirmation
-#	attr_protected :admin
+	attr_protected :admin, :password_digest, :remember_token
 	has_secure_password
 
 	before_save { |user| user.email = email.downcase }
@@ -16,6 +16,10 @@ class User < ActiveRecord::Base
 	validates :name, presence: true
 	validates :password, presence: true, length: {minimum: 6}
 	validates :password_confirmation, presence: true
+
+	def admin?
+		self.admin
+	end
 
 	private
 		def create_remember_token

@@ -27,6 +27,14 @@ module SessionsHelper
 		end
 	end
 
+	def signed_in_user_board
+		unless signed_in?
+			store_location
+			flash[:error] = "Not signed in"
+			redirect_to root_path
+		end
+	end
+
 	def sign_out
 		self.current_user = nil
 		cookies.delete(:remember_token)

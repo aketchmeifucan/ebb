@@ -53,9 +53,14 @@ class UsersController < ApplicationController
 	def destroy
 		#		if current_user.admin?
 		#		then make sure you can't delete yourself?!@#
-		User.find(params[:id]).destroy
-		flash[:success] = "User destroyed."
-		redirect_to users_url
+		if User.find(params[:id]).admin?
+			flash[:error] = "Admin cannot delete itself!"
+			redirect_to(root_path) 
+		else
+			User.find(params[:id]).destroy
+			flash[:success] = "User destroyed."
+			redirect_to users_url
+		end
 	end
 
 	private
@@ -73,7 +78,15 @@ class UsersController < ApplicationController
 	end
 
 	def admin_user
-		redirect_to(root_path) unless current_user.admin?
+		if current_user.nil?
+			flash[:error] = "Not signed in"
+			redirect_to(root_path)
+		else
+			unless current_user.admin?
+				flash[:error] = "Not an administrator"
+				redirect_to(root_path)
+			end
+		end
 	end
 
 	def correct_user_showPage
