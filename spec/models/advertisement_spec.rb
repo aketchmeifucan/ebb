@@ -20,6 +20,8 @@ describe Advertisement do
   it { should respond_to(:charge) }
 
   describe 'accessible attributes' do
+    let(:user) { FactoryGirl.create(:user) }
+
     it 'should not allow access to user_id' do
       expect do
 	Advertisement.new(user_id: user)
