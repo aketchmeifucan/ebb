@@ -7,9 +7,9 @@ class Tile < ActiveRecord::Base
 	validates :cost, presence: true
 	validates_numericality_of :cost, :greater_than => 0
 	validates :x_location, presence: true
-	validates_numericality_of :x_location, :greater_than => 0
+	validates_numericality_of :x_location, :greater_than_or_equal_to => 0
 	validates :y_location, presence: true
-	validates_numericality_of :y_location, :greater_than => 0
+	validates_numericality_of :y_location, :greater_than_or_equal_to => 0
 	validate :check_tile_bounds
 
 	def age

@@ -15,15 +15,23 @@ class Board < ActiveRecord::Base
 	validates_inclusion_of :timezone, :in => ActiveSupport::TimeZone.zones_map
 
 	before_create :fakeAd
+	before_create :chargeBoard
 
 	def age
 		tiles.each do |t|
 			t.age
 		end
 		advertisements.each do |a|
+			puts "in Board.rb ads.charge"
 			a.charge
+			a.save
 		end
 	end 
+
+	def chargeBoard
+		payment_entry = create_payment_detail(:amount => width * height)
+		payment_entry.user = user
+	end
 
 	private
 	def fakeAd

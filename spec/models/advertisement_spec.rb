@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Advertisement do
   let(:user) { FactoryGirl.create(:user) }
   let(:board) { FactoryGirl.create(:board) }
-  let(:ad) { FactoryGirl.create(:advertisement, user: user, board: board) }
+  let(:ad) { FactoryGirl.build(:advertisement, user: user, board: board) }
 
   subject { ad }
 

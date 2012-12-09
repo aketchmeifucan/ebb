@@ -95,9 +95,13 @@ class UsersController < ApplicationController
 			flash[:error] = "Not signed in"
 			redirect_to(root_path) 
 		end
-		unless current_user?(@user)
-			flash[:error] = "Wrong user"
-			redirect_to(root_path) 
+		if !signed_in?
+			flash[:error] = "Not signed in"
+		else
+			unless current_user?(@user)
+				flash[:error] = "Wrong user"
+				redirect_to(root_path) 
+			end
 		end
 	end
 end

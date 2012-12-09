@@ -20,26 +20,31 @@ class Advertisement < ActiveRecord::Base
 	validates :board, presence: true
 
 	before_create :createTiles
+#	after_validation :createTiles, :on => :build
 
 	def image_contents=(object)
 		self.image = object.read
 	end
 
 	def charge
-		payment_entry = payment_details.build()
-		payment_entry.amount = 0
+		am = 0
 		tiles.each do |t|
-			payment_entry.amount += t.cost
-			puts "tile x= #{t.x_location} y= #{t.y_location} cost= #{t.cost}"
+			am += t.cost
+			puts "tile x= #{t.x_location} y= #{t.y_location} cost= #{t.cost} amount= #{am}"
 		end
+#		payment_entry = create_payment_details(:amount => am)
+		payment_entry = payment_details.build()
+		payment_entry.amount = am
 		payment_entry.user = user
-		payment_entry.save
-		puts "payment_entry= #{payment_entry.amount}"
+#		payment_entry.save
+		puts "payment_entry= #{payment_entry.amount} #oftiles= #{tiles.length}"
 	end
 
 	private
 
 	def createTiles
+#		puts "START createTiles Tile.last.id= #{Tile.last.id}"
+		puts "START createTiles "
 		for c in x_location..(width + x_location - 1)
 			for r in y_location..(height + y_location - 1)
 				t = tiles.build(x_location: c, y_location: r)
@@ -55,7 +60,14 @@ class Advertisement < ActiveRecord::Base
 				end
 			end
 		end
-		charge
+		puts "# of t created #{tiles.length}"
+		if image != "rails.png"
+			puts "charge---"
+			charge
+		else
+			puts "NO CHARGE its FAKE AD"
+		end
+		puts "END createTiles"
 	end
 	def check_advertisement_bounds
 		unless x_location.nil?
