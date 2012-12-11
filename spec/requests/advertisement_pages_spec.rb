@@ -32,6 +32,10 @@ describe "AdvertisementPages" do
 	fill_in 'X Location', with: 1
 	fill_in 'Y Location', with: 2
 	attach_file 'advertisement_image_contents', Rails.root.join('spec', 'images', '3x5.jpg')
+
+#	filename = Rails.root.join('spec', 'images', '3x5.jpg').to_s
+#	filename.gsub!(/\//, "\\")
+#	attach_file 'advertisement_image_contents', filename
       end
 
       it 'should create an advertisment' do

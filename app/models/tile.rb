@@ -5,7 +5,7 @@ class Tile < ActiveRecord::Base
 	has_one :board, through: :advertisement
 
 	validates :cost, presence: true
-	validates_numericality_of :cost, :greater_than => 0
+	validates_numericality_of :cost, :greater_than_or_equal_to => 0
 	validates :x_location, presence: true
 	validates_numericality_of :x_location, :greater_than_or_equal_to => 0
 	validates :y_location, presence: true
@@ -14,11 +14,16 @@ class Tile < ActiveRecord::Base
 
 	def age
 		#reduce cost down to .01 then free
-		if (self.cost/2) < 0.01
+		if (self.cost/2.0).round(2) < 0.01
 			self.cost = 0
 		else
-			self.cost = self.cost / 2
+			if self.cost != 0.01
+				self.cost = (self.cost / 2.0).round(2)
+			else
+				self.cost = 0
+			end
 		end
+		save
 		#create entry in payment details do in board call charge
 	end
 
@@ -35,7 +40,8 @@ class Tile < ActiveRecord::Base
 			end
 		end
 		unless x_location.nil? || advertisement.width.nil?
-			if x_location >= advertisement.width
+#			if x_location >= advertisement.width
+			if x_location > (advertisement.width + advertisement.x_location - 1)
 				errors.add(:x_location, 'x_location of tile exceeds advertisement width')
 			end
 		end
@@ -43,7 +49,8 @@ class Tile < ActiveRecord::Base
 			#for some reason when i add >= which the test should be
 			#it causes errors with line 7 of tile_spec
   			#let(:tile) { FactoryGirl.create(:tile, advertisement: ad) }
-			if y_location > advertisement.height 
+#			if y_location >= advertisement.height 
+			if y_location > (advertisement.height + advertisement.y_location - 1)
 				errors.add(:y_location, 'y_location of tile exceeds advertisement height')
 			end
 		end

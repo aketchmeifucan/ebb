@@ -20,54 +20,47 @@ class Advertisement < ActiveRecord::Base
 	validates :board, presence: true
 
 	before_create :createTiles
-#	after_validation :createTiles, :on => :build
+	#	after_validation :createTiles, :on => :build
 
 	def image_contents=(object)
 		self.image = object.read
 	end
 
-	def charge
-		am = 0
-		tiles.each do |t|
-			am += t.cost
-			puts "tile x= #{t.x_location} y= #{t.y_location} cost= #{t.cost} amount= #{am}"
+	def charge(am=tiles.sum(:cost))
+		if am != 0 
+			payment_entry = payment_details.build()
+			payment_entry.amount = am
+			payment_entry.user = user
+		else
 		end
-#		payment_entry = create_payment_details(:amount => am)
-		payment_entry = payment_details.build()
-		payment_entry.amount = am
-		payment_entry.user = user
-#		payment_entry.save
-		puts "payment_entry= #{payment_entry.amount} #oftiles= #{tiles.length}"
 	end
 
 	private
 
 	def createTiles
-#		puts "START createTiles Tile.last.id= #{Tile.last.id}"
-		puts "START createTiles "
+		paymentSum = 0
 		for c in x_location..(width + x_location - 1)
 			for r in y_location..(height + y_location - 1)
-				t = tiles.build(x_location: c, y_location: r)
 				oldT = board.tiles.where(x_location: c, y_location: r).first
-#				puts "width= #{width} height= #{height} x= #{x_location} y= #{y_location} c= #{c} r= #{r}"
 				if oldT.nil?
-					t.cost = 1
+					t = tiles.build(x_location: c, y_location: r)
+					t.cost = 0
 				else
-					t.cost = oldT.cost * 2
+					oldCost = oldT.cost
+					oldT.destroy
+					t = tiles.build(x_location: c, y_location: r)
+					t.cost = oldCost * 2
 					if t.cost < 1
 						t.cost = 1
 					end
+					paymentSum += t.cost
 				end
 			end
 		end
-		puts "# of t created #{tiles.length}"
+
 		if image != "rails.png"
-			puts "charge---"
-			charge
-		else
-			puts "NO CHARGE its FAKE AD"
+			charge(paymentSum)
 		end
-		puts "END createTiles"
 	end
 	def check_advertisement_bounds
 		unless x_location.nil?

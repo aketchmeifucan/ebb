@@ -22,7 +22,6 @@ class Board < ActiveRecord::Base
 			t.age
 		end
 		advertisements.each do |a|
-			puts "in Board.rb ads.charge"
 			a.charge
 			a.save
 		end
